@@ -25,7 +25,7 @@ YOLO_PRETRAINED = "yolov8n.pt"  # Base pretrained weights for fine-tuning
 CONFIDENCE_THRESHOLD = 0.25
 NMS_IOU_THRESHOLD = 0.45
 INPUT_IMAGE_SIZE = 640
-DEVICE = "cuda" if os.environ.get("USE_GPU", "1") == "1" else "cpu"
+DEVICE = "cpu"  # Force CPU — set to "cuda" only if you have a working NVIDIA GPU + CUDA toolkit
 
 # ── Speckle Filter Settings ───────────────────────────────────────────────
 SPECKLE_FILTER_TYPE = "lee"   # "lee" or "frost"

@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ocean-900: #0a0a1a;
+  --color-ocean-800: #16213e;
+  --color-ocean-700: #1a1a2e;
+  --color-ocean-600: #0f3460;
+  --color-ocean-500: #2d3436;
+  --color-neon-blue: #00d4ff;
+  --color-neon-purple: #7b2ff7;
+  --color-neon-pink: #ff6b6b;
+  --color-threat-high: #EF4444;
+  --color-threat-medium: #F59E0B;
+  --color-threat-low: #22C55E;
+}
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: var(--color-ocean-900);
+
+  font-synthesesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--color-ocean-900) 0%, var(--color-ocean-700) 100%);
+  background-attachment: fixed;
+}
+
+#root {
+  width: 100%;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(22, 33, 62, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.7) 0%, rgba(22, 33, 62, 0.7) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.radar-sweep {
+  animation: sweep 4s infinite linear;
+  transform-origin: center;
+}
+
+@keyframes sweep {
+  to { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-ocean-900); }
+::-webkit-scrollbar-thumb { background: var(--color-neon-blue); border-radius: 3px; }
