@@ -1,7 +1,50 @@
 import { motion } from 'framer-motion';
 import { Download, FileText, Calendar, Filter, AlertTriangle } from 'lucide-react';
+import axios from 'axios';
+import { useState } from 'react';
 
 export default function Reports() {
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownloadPDF = async (endpoint, filename) => {
+    try {
+      setDownloading(true);
+      const res = await axios.get(`http://localhost:8000${endpoint}`, { responseType: 'arraybuffer' });
+      const blob = new Blob([res.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error(e);
+      alert('Failed to generate PDF report.');
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const handleDownloadCSV = async (endpoint, filename) => {
+    try {
+      setDownloading(true);
+      const res = await axios.get(`http://localhost:8000${endpoint}`);
+      const dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(res.data);
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href",     dataStr);
+      downloadAnchorNode.setAttribute("download", filename);
+      document.body.appendChild(downloadAnchorNode); 
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    } catch (e) {
+      console.error(e);
+      alert('Failed to generate report.');
+    } finally {
+      setDownloading(false);
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -42,8 +85,12 @@ export default function Reports() {
           </div>
           <h3 className="text-xl font-bold mb-2 group-hover:text-neon-blue transition-colors">Daily Executive Summary</h3>
           <p className="text-sm text-gray-400 flex-1 mb-6 mt-2 line-clamp-3">Comprehensive breakdown of all maritime activity, fleet formations, and high-threat vessels detected over the last 24 hours.</p>
-          <button className="w-full py-3 rounded-xl bg-neon-blue text-ocean-900 font-bold flex items-center justify-center gap-2 hover:bg-white transition-colors">
-             <Download size={18} /> Download Report
+          <button 
+            onClick={() => handleDownloadPDF('/api/reports/daily', 'daily_executive_summary.pdf')}
+            disabled={downloading}
+            className="w-full py-3 rounded-xl bg-neon-blue text-ocean-900 font-bold flex items-center justify-center gap-2 hover:bg-white transition-colors disabled:opacity-50"
+          >
+             <Download size={18} /> {downloading ? 'Generating...' : 'Download Report'}
           </button>
         </div>
 
@@ -57,8 +104,12 @@ export default function Reports() {
           </div>
           <h3 className="text-xl font-bold mb-2 group-hover:text-neon-purple transition-colors">Raw Detection Logs</h3>
           <p className="text-sm text-gray-400 flex-1 mb-6 mt-2">Export full bounding box coordinates, track IDs, confidence scores, and time-series location data for deep analysis.</p>
-          <button className="w-full py-3 rounded-xl bg-neon-purple text-white font-bold flex items-center justify-center gap-2 hover:bg-neon-purple/80 transition-colors">
-             <Download size={18} /> Export Data
+          <button 
+            onClick={() => handleDownloadCSV('/api/reports/raw', 'raw_detection_logs.csv')}
+            disabled={downloading}
+            className="w-full py-3 rounded-xl bg-neon-purple text-white font-bold flex items-center justify-center gap-2 hover:bg-neon-purple/80 transition-colors disabled:opacity-50"
+          >
+             <Download size={18} /> {downloading ? 'Exporting...' : 'Export Data'}
           </button>
         </div>
 
@@ -72,8 +123,12 @@ export default function Reports() {
           </div>
           <h3 className="text-xl font-bold mb-2 group-hover:text-threat-high transition-colors">Incident & Threat Log</h3>
           <p className="text-sm text-gray-400 flex-1 mb-6 mt-2">Filtered report detailing exclusively Dark Vessels and zone violation alerts prioritized by intelligence severity.</p>
-          <button className="w-full py-3 rounded-xl bg-threat-high text-white font-bold flex items-center justify-center gap-2 hover:bg-red-600 transition-colors">
-             <Download size={18} /> Generate Threat Log
+          <button 
+            onClick={() => handleDownloadPDF('/api/reports/threats', 'incident_threat_log.pdf')}
+            disabled={downloading}
+            className="w-full py-3 rounded-xl bg-threat-high text-white font-bold flex items-center justify-center gap-2 hover:bg-red-600 transition-colors disabled:opacity-50"
+          >
+             <Download size={18} /> {downloading ? 'Generating...' : 'Generate Threat Log'}
           </button>
         </div>
 
