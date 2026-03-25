@@ -63,10 +63,10 @@ export default function Detection() {
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="flex justify-between items-end mb-8 border-b border-white/10 pb-6">
+      <div className="flex justify-between items-end mb-6 border-b border-[rgba(0,229,255,0.08)] pb-4">
         <div>
-          <h2 className="text-3xl font-bold">Ship Detection</h2>
-          <p className="text-gray-400 mt-2">Upload SAR imagery for automated vessel detection and threat analysis.</p>
+          <h2 className="font-heading text-lg tracking-wider text-neon-cyan flex items-center gap-2"><Crosshair size={18} /> SAR DETECTION</h2>
+          <p className="text-xs font-mono text-gray-500 mt-1">Upload SAR imagery for automated vessel detection and threat analysis</p>
         </div>
         {preview && (
           <div className="flex gap-4 items-center">
@@ -80,7 +80,7 @@ export default function Detection() {
                   min="0.05" max="0.70" step="0.05" 
                   value={confidence} 
                   onChange={(e) => setConfidence(parseFloat(e.target.value))}
-                  className="w-32 accent-neon-blue mt-1"
+                  className="w-32 accent-neon-cyan mt-1"
                   disabled={loading}
                 />
               </div>
@@ -134,9 +134,9 @@ export default function Detection() {
             )}
             
             {loading && (
-              <div className="absolute inset-0 bg-ocean-900/80 backdrop-blur-sm flex flex-col items-center justify-center z-20">
-                <div className="w-16 h-16 border-4 border-neon-blue/20 border-t-neon-blue rounded-full animate-spin"></div>
-                <p className="mt-4 font-medium text-neon-blue animate-pulse">Running YOLOv8 + ByteTrack...</p>
+              <div className="absolute inset-0 bg-neptune-900/80 backdrop-blur-sm flex flex-col items-center justify-center z-20">
+                <div className="w-16 h-16 border-4 border-neon-cyan/20 border-t-neon-cyan rounded-full animate-spin"></div>
+                <p className="mt-4 font-heading text-xs tracking-wider text-neon-cyan animate-pulse">RUNNING YOLOV8 + BYTETRACK...</p>
               </div>
             )}
           </div>
