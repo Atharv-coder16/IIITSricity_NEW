@@ -47,10 +47,13 @@ data/samples/
 
 # Models and runs
 models/runs/
+runs/
 *.pt
 
 # Outputs
 outputs/
+data/inference_tiles/
+data/test_tiles*/
 *.pdf
 *.html
 *.gif
